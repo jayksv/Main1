@@ -1,9 +1,22 @@
 package com.Auton.gibg.controller.user;
 
 
-import com.Auton.gibg.entity.product.color_entity;
+import com.Auton.gibg.entity.address.address_entity;
+import com.Auton.gibg.entity.shop.shopAmenrities_entity;
+import com.Auton.gibg.entity.shop.shopImage_entity;
+import com.Auton.gibg.entity.shop.shopService_entity;
+import com.Auton.gibg.entity.shop.shop_entity;
 import com.Auton.gibg.entity.user.LoginResponse;
 import com.Auton.gibg.entity.user.UserAddressShopWrapper;
+import com.Auton.gibg.entity.user.UserAddressWrapper;
+import com.Auton.gibg.entity.user.user_entity;
+import com.Auton.gibg.middleware.authToken;
+import com.Auton.gibg.repository.address.address_repoittory;
+import com.Auton.gibg.repository.shop.shopAmenrities_repository;
+import com.Auton.gibg.repository.shop.shopImage_repository;
+import com.Auton.gibg.repository.shop.shopService_repository;
+import com.Auton.gibg.repository.shop.shop_repostory;
+import com.Auton.gibg.repository.user.user_repository;
 import com.Auton.gibg.response.ResponseWrapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -16,17 +29,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.*;
-import com.Auton.gibg.repository.user.user_repository;
-import com.Auton.gibg.repository.address.address_repoittory;
-import com.Auton.gibg.repository.shop.*;
-import com.Auton.gibg.entity.user.user_entity;
-import com.Auton.gibg.entity.address.address_entity;
-import com.Auton.gibg.entity.shop.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.Auton.gibg.entity.user.UserAddressWrapper;
-import com.Auton.gibg.middleware.authToken;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -37,12 +41,10 @@ import java.util.Optional;
 @CrossOrigin(origins = "*") // Allow requests from any origin
 @Api(tags = "User Management")
 public class user_controller {
-    @Value("${jwt_secret}")
-    private String jwt_secret;
-
     private final JdbcTemplate jdbcTemplate;
     private final authToken authService;
-
+    @Value("${jwt_secret}")
+    private String jwt_secret;
     @Autowired
     private user_repository user_repository;
 
@@ -69,7 +71,7 @@ public class user_controller {
 
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseWrapper<LoginResponse>> loginUser(@RequestBody user_entity user ) {
+    public ResponseEntity<ResponseWrapper<LoginResponse>> loginUser(@RequestBody user_entity user) {
         try {
             // Validate email format
             if (!isValidEmail(user.getEmail())) {
@@ -113,7 +115,7 @@ public class user_controller {
                     String token = Jwts.builder()
                             .setClaims(claims)
                             .setIssuedAt(new Date(System.currentTimeMillis()))
-                            .setExpiration(new Date(System.currentTimeMillis() + 86400000*24)) // Token will expire in 24 hours
+                            .setExpiration(new Date(System.currentTimeMillis() + 86400000 * 24)) // Token will expire in 24 hours
                             .signWith(SignatureAlgorithm.HS512, jwt_secret)
                             .compact();
 
@@ -143,15 +145,15 @@ public class user_controller {
 // create new sub admin
 
     @PostMapping("/user/add_subadmin")
-    public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewUser(@RequestBody UserAddressWrapper userAddressWrapper, @RequestHeader ("Authorization") String authorizationHeader) {
+    public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewUser(@RequestBody UserAddressWrapper userAddressWrapper, @RequestHeader("Authorization") String authorizationHeader) {
         try {
 
             // Validate authorization using authService
             ResponseEntity<?> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
             if (authResponse.getStatusCode() != HttpStatus.OK) {
                 // Token is invalid or has expired
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
             }
 
             user_entity user = userAddressWrapper.getUser();
@@ -223,276 +225,278 @@ public class user_controller {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-// update sub addmin
-@PutMapping("/user/update_subadmin/{userId}")
-public ResponseEntity<ResponseWrapper<user_entity>> updateUser(
-        @PathVariable Long userId,
-        @RequestBody UserAddressWrapper userAddressWrapper,
-        @RequestHeader("Authorization") String authorizationHeader) {
 
-    try {
-        // Validate authorization using authService
-        ResponseEntity<?> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
-        if (authResponse.getStatusCode() != HttpStatus.OK) {
+    // update sub addmin
+    @PutMapping("/user/update_subadmin/{userId}")
+    public ResponseEntity<ResponseWrapper<user_entity>> updateUser(
+            @PathVariable Long userId,
+            @RequestBody UserAddressWrapper userAddressWrapper,
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        try {
+            // Validate authorization using authService
+            ResponseEntity<?> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
+            if (authResponse.getStatusCode() != HttpStatus.OK) {
+                // Token is invalid or has expired
+                ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+            }
+            // Find the existing user by user_id
+            Optional<user_entity> existingUserOptional = user_repository.findById(userId);
+
+
+            if (existingUserOptional.isEmpty()) {
+                ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("User not found.", null);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
+            }
+            Optional<address_entity> existingAddress = address_repoittory.findById(existingUserOptional.get().getAddress_id());
+            user_entity user = userAddressWrapper.getUser();
+            address_entity userAddress = userAddressWrapper.getUserAddress();
+
+
+            // Update user properties
+            user_entity userToUpdate = existingUserOptional.get();
+//        userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setPassword(user.getPassword());
+            userToUpdate.setFirst_name(user.getFirst_name());
+            userToUpdate.setLast_name(user.getLast_name());
+            userToUpdate.setBirthdate(user.getBirthdate());
+            userToUpdate.setGender(user.getGender());
+            userToUpdate.setProfile_picture(user.getProfile_picture());
+            userToUpdate.setBio(user.getBio());
+//        userToUpdate.setRole_id(user.getRole_id());
+
+            // Update address properties
+            address_entity addressToUpdate = existingAddress.get();
+            addressToUpdate.setStreetAddress(userAddress.getStreetAddress());
+            addressToUpdate.setState(userAddress.getState());
+            addressToUpdate.setPostalCode(userAddress.getPostalCode());
+            addressToUpdate.setCountry(userAddress.getCountry());
+            addressToUpdate.setLatitude(userAddress.getLatitude());
+            addressToUpdate.setLongitude(userAddress.getLongitude());
+
+            // Check if email already exists
+            user_entity emailExist = user_repository.findByEmail(userToUpdate.getEmail());
+            if (emailExist != null) {
+                ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("Email is already taken.", null);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(responseWrapper);
+            }
+
+            // Save the updated user
+            user_entity updatedUserEntity = user_repository.save(userToUpdate);
+            address_entity updatedAddress = address_repoittory.save(addressToUpdate);
+
+            ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("User updated successfully.", null);
+            return ResponseEntity.ok(responseWrapper);
+
+        } catch (JwtException e) {
             // Token is invalid or has expired
             ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errorMessage = "An error occurred while updating the user.";
+            ResponseWrapper<user_entity> errorResponse = new ResponseWrapper<>(errorMessage, null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
-        // Find the existing user by user_id
-        Optional<user_entity> existingUserOptional = user_repository.findById(userId);
-
-
-        if (existingUserOptional.isEmpty()) {
-            ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("User not found.", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
-        }
-        Optional<address_entity> existingAddress = address_repoittory.findById(existingUserOptional.get().getAddress_id());
-        user_entity user = userAddressWrapper.getUser();
-        address_entity userAddress = userAddressWrapper.getUserAddress();
-
-
-        // Update user properties
-        user_entity userToUpdate = existingUserOptional.get();
-//        userToUpdate.setEmail(user.getEmail());
-        userToUpdate.setPassword(user.getPassword());
-        userToUpdate.setFirst_name(user.getFirst_name());
-        userToUpdate.setLast_name(user.getLast_name());
-        userToUpdate.setBirthdate(user.getBirthdate());
-        userToUpdate.setGender(user.getGender());
-        userToUpdate.setProfile_picture(user.getProfile_picture());
-        userToUpdate.setBio(user.getBio());
-//        userToUpdate.setRole_id(user.getRole_id());
-
-        // Update address properties
-        address_entity addressToUpdate = existingAddress.get();
-        addressToUpdate.setStreetAddress(userAddress.getStreetAddress());
-        addressToUpdate.setState(userAddress.getState());
-        addressToUpdate.setPostalCode(userAddress.getPostalCode());
-        addressToUpdate.setCountry(userAddress.getCountry());
-        addressToUpdate.setLatitude(userAddress.getLatitude());
-        addressToUpdate.setLongitude(userAddress.getLongitude());
-
-        // Check if email already exists
-        user_entity emailExist = user_repository.findByEmail(userToUpdate.getEmail());
-        if (emailExist != null) {
-            ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("Email is already taken.", null);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(responseWrapper);
-        }
-
-        // Save the updated user
-        user_entity updatedUserEntity = user_repository.save(userToUpdate);
-        address_entity updatedAddress = address_repoittory.save(addressToUpdate);
-
-        ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("User updated successfully.", null);
-        return ResponseEntity.ok(responseWrapper);
-
-    } catch (JwtException e) {
-        // Token is invalid or has expired
-        ResponseWrapper<user_entity> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
-    } catch (Exception e) {
-        e.printStackTrace();
-        String errorMessage = "An error occurred while updating the user.";
-        ResponseWrapper<user_entity> errorResponse = new ResponseWrapper<>(errorMessage, null);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
-}
-// delete the user
-@DeleteMapping("/user/delete_subadmin/{userId}")
-public ResponseEntity<ResponseWrapper<String>> deleteUser(
-        @PathVariable Long userId,
-        @RequestHeader("Authorization") String authorizationHeader) {
 
-    try {
-        if (authorizationHeader == null || authorizationHeader.isBlank()) {
-            ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("Authorization header is missing or empty.", null);
+    // delete the user
+    @DeleteMapping("/user/delete_subadmin/{userId}")
+    public ResponseEntity<ResponseWrapper<String>> deleteUser(
+            @PathVariable Long userId,
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        try {
+            if (authorizationHeader == null || authorizationHeader.isBlank()) {
+                ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("Authorization header is missing or empty.", null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+            }
+
+            // Verify the token from the Authorization header
+            String token = authorizationHeader.substring("Bearer ".length());
+
+            Claims claims = Jwts.parser()
+                    .setSigningKey(jwt_secret) // Replace with your secret key
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // Check token expiration
+            Date expiration = claims.getExpiration();
+            if (expiration != null && expiration.before(new Date())) {
+                ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("Token has expired.", null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+            }
+
+            // Extract necessary claims (you can add more as needed)
+            Long authenticatedUserId = claims.get("user_id", Long.class);
+            String role = claims.get("role_name", String.class);
+
+            // Check if the authenticated user has the appropriate role to perform this action (e.g., admin)
+            if (!"Super Admin".equalsIgnoreCase(role)) {
+                ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("You are not authorized to perform this action.", null);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseWrapper);
+            }
+
+            Optional<user_entity> existingUserOptional = user_repository.findById(userId);
+
+
+            if (existingUserOptional.isEmpty()) {
+                ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("User not found.", null);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
+            }
+
+
+            user_entity userToDelete = existingUserOptional.get();
+            Long addressIdToDelete = userToDelete.getAddress_id();
+
+
+            // Delete the associated address
+            if (addressIdToDelete != null) {
+                address_repoittory.deleteById(addressIdToDelete);
+            }
+
+            // Delete the user
+            user_repository.delete(userToDelete);
+
+            ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("User deleted successfully.", null);
+            return ResponseEntity.ok(responseWrapper);
+
+        } catch (JwtException e) {
+            // Token is invalid or has expired
+            ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
-        }
-
-        // Verify the token from the Authorization header
-        String token = authorizationHeader.substring("Bearer ".length());
-
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwt_secret) // Replace with your secret key
-                .parseClaimsJws(token)
-                .getBody();
-
-        // Check token expiration
-        Date expiration = claims.getExpiration();
-        if (expiration != null && expiration.before(new Date())) {
-            ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("Token has expired.", null);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
-        }
-
-        // Extract necessary claims (you can add more as needed)
-        Long authenticatedUserId = claims.get("user_id", Long.class);
-        String role = claims.get("role_name", String.class);
-
-        // Check if the authenticated user has the appropriate role to perform this action (e.g., admin)
-        if (!"Super Admin".equalsIgnoreCase(role)) {
-            ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("You are not authorized to perform this action.", null);
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseWrapper);
-        }
-
-        Optional<user_entity> existingUserOptional = user_repository.findById(userId);
-
-
-        if (existingUserOptional.isEmpty()) {
+        } catch (EmptyResultDataAccessException e) {
+            // User not found
             ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("User not found.", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errorMessage = "An error occurred while deleting the user.";
+            ResponseWrapper<String> errorResponse = new ResponseWrapper<>(errorMessage, null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
-
-
-        user_entity userToDelete = existingUserOptional.get();
-        Long addressIdToDelete = userToDelete.getAddress_id();
-
-
-        // Delete the associated address
-        if (addressIdToDelete != null) {
-            address_repoittory.deleteById(addressIdToDelete);
-        }
-
-        // Delete the user
-        user_repository.delete(userToDelete);
-
-        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("User deleted successfully.", null);
-        return ResponseEntity.ok(responseWrapper);
-
-    } catch (JwtException e) {
-        // Token is invalid or has expired
-        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
-    } catch (EmptyResultDataAccessException e) {
-        // User not found
-        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>("User not found.", null);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
-    } catch (Exception e) {
-        e.printStackTrace();
-        String errorMessage = "An error occurred while deleting the user.";
-        ResponseWrapper<String> errorResponse = new ResponseWrapper<>(errorMessage, null);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
-}
 
 
-//----------------------------------------------------------------Manage shop owner information
-@PostMapping("/user/add_shopowner")
-public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@RequestBody UserAddressShopWrapper request,
-                                                                          @RequestHeader ("Authorization") String authorizationHeader) {
-    try {
+    //----------------------------------------------------------------Manage shop owner information
+    @PostMapping("/user/add_shopowner")
+    public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@RequestBody UserAddressShopWrapper request,
+                                                                              @RequestHeader("Authorization") String authorizationHeader) {
+        try {
 
-        // Validate authorization using authService
-        ResponseEntity<ResponseWrapper<Void>> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
-        if (authResponse.getStatusCode() != HttpStatus.OK) {
-            ResponseWrapper<Void> authResponseBody = authResponse.getBody();
-            return ResponseEntity.status(authResponse.getStatusCode()).body(new ResponseWrapper<>(authResponseBody.getMessage(), null));
-        }
+            // Validate authorization using authService
+            ResponseEntity<ResponseWrapper<Void>> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
+            if (authResponse.getStatusCode() != HttpStatus.OK) {
+                ResponseWrapper<Void> authResponseBody = authResponse.getBody();
+                return ResponseEntity.status(authResponse.getStatusCode()).body(new ResponseWrapper<>(authResponseBody.getMessage(), null));
+            }
 
-        user_entity user = request.getUser();
+            user_entity user = request.getUser();
 //        address_entity userAddress = request.getUserAddress();
-        shop_entity userShop = request.getUserShop();
-        List<shopAmenrities_entity> shopAmenrities = request.getShopAmenrities();
-        List<shopService_entity> shopService = request.getShopServices();
-        List<shopImage_entity> shopImages = request.getShopImages();
+            shop_entity userShop = request.getUserShop();
+            List<shopAmenrities_entity> shopAmenrities = request.getShopAmenrities();
+            List<shopService_entity> shopService = request.getShopServices();
+            List<shopImage_entity> shopImages = request.getShopImages();
 
-        System.out.println(user.getPhone());
+            System.out.println(user.getPhone());
 
-        // Check for null values and validate email and password length
-        if (user.getEmail() == null || user.getPassword() == null || user.getFirst_name() == null || user.getLast_name() == null) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Email, password, first name, and last name are required.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
-        }
+            // Check for null values and validate email and password length
+            if (user.getEmail() == null || user.getPassword() == null || user.getFirst_name() == null || user.getLast_name() == null) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Email, password, first name, and last name are required.", null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
+            }
 
-        if (!isValidEmail(user.getEmail())) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Invalid email format.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
-        }
+            if (!isValidEmail(user.getEmail())) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Invalid email format.", null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
+            }
 
-        //check password
-        String password = user.getPassword();
+            //check password
+            String password = user.getPassword();
 
-        if (password.length() < 8) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should be at least 8 characters long.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
-        }
-        if (!password.matches(".*[a-z].*")) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one lowercase letter.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
-        }
-        if (!password.matches(".*[A-Z].*")) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one uppercase letter.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
-        }
-        if (!password.matches(".*\\d.*")) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one digit.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
-        }
-        if (!password.matches(".*[@#$%^&+=].*")) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one special character.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
-        }
+            if (password.length() < 8) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should be at least 8 characters long.", null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
+            }
+            if (!password.matches(".*[a-z].*")) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one lowercase letter.", null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
+            }
+            if (!password.matches(".*[A-Z].*")) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one uppercase letter.", null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
+            }
+            if (!password.matches(".*\\d.*")) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one digit.", null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
+            }
+            if (!password.matches(".*[@#$%^&+=].*")) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Password should contain at least one special character.", null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseWrapper);
+            }
 
-        // Check if email already exists
-        user_entity emailExist = user_repository.findByEmail(user.getEmail());
+            // Check if email already exists
+            user_entity emailExist = user_repository.findByEmail(user.getEmail());
 
-        if (emailExist != null) {
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Email is already taken.", null);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(responseWrapper);
-        } else {
-            // Save the user address
+            if (emailExist != null) {
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Email is already taken.", null);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(responseWrapper);
+            } else {
+                // Save the user address
 //            address_entity savedAddress = address_repoittory.save(userAddress);
-            // shop information
-            userShop.setShop_status_id((long)2);
-            shop_entity savedShop = shop_repostory.save(userShop);
+                // shop information
+                userShop.setShop_status_id((long) 2);
+                shop_entity savedShop = shop_repostory.save(userShop);
 
 
-            BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-            String encryptedPass = bcrypt.encode(user.getPassword());
-            user.setPassword(encryptedPass);
+                BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+                String encryptedPass = bcrypt.encode(user.getPassword());
+                user.setPassword(encryptedPass);
 
-            user.setIs_active("Active");
+                user.setIs_active("Active");
 //            user.setAddress_id(savedAddress.getAddressId().longValue());
-            user.setShop_id(savedShop.getShopId().longValue());
-            user.setRole_id((long) 3);
+                user.setShop_id(savedShop.getShopId().longValue());
+                user.setRole_id((long) 3);
 
 
-            user_entity savedUser = user_repository.save(user);
-            // Set the shop_id
+                user_entity savedUser = user_repository.save(user);
+                // Set the shop_id
 
-            int minSize = Math.min(shopAmenrities.size(), Math.min(shopService.size(), shopImages.size()));
+                int minSize = Math.min(shopAmenrities.size(), Math.min(shopService.size(), shopImages.size()));
 
-            for (int i = 0; i < minSize; i++) {
-                shopAmenrities_entity amenrity = shopAmenrities.get(i);
-                shopService_entity service = shopService.get(i);
-                shopImage_entity image = shopImages.get(i);
+                for (int i = 0; i < minSize; i++) {
+                    shopAmenrities_entity amenrity = shopAmenrities.get(i);
+                    shopService_entity service = shopService.get(i);
+                    shopImage_entity image = shopImages.get(i);
 
-                amenrity.setShop_id(savedUser.getShop_id());
-                service.setShop_id(savedUser.getShop_id());
-                image.setShop_id(savedUser.getShop_id());
+                    amenrity.setShop_id(savedUser.getShop_id());
+                    service.setShop_id(savedUser.getShop_id());
+                    image.setShop_id(savedUser.getShop_id());
+                }
+
+                // Set the shop_id for each shopImage_entity
+                for (shopImage_entity image : shopImages) {
+                    image.setShop_id(savedUser.getShop_id());
+                }
+
+                shopAmenritiesRepository.saveAll(shopAmenrities);
+                shopServiceRepository.saveAll(shopService);
+                shopImageRepository.saveAll(shopImages);
+
+
+                ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Insert new user, address and shop successful", null);
+                return ResponseEntity.ok(responseWrapper);
             }
 
-            // Set the shop_id for each shopImage_entity
-            for (shopImage_entity image : shopImages) {
-                image.setShop_id(savedUser.getShop_id());
-            }
 
-            shopAmenritiesRepository.saveAll(shopAmenrities);
-            shopServiceRepository.saveAll(shopService);
-            shopImageRepository.saveAll(shopImages);
-
-
-            ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Insert new user, address and shop successful", null);
-            return ResponseEntity.ok(responseWrapper);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errorMessage = "An error occurred while adding a new user.";
+            ResponseWrapper<List<user_entity>> errorResponse = new ResponseWrapper<>(errorMessage, null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
-
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        String errorMessage = "An error occurred while adding a new user.";
-        ResponseWrapper<List<user_entity>> errorResponse = new ResponseWrapper<>(errorMessage, null);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
-}
 
     @PutMapping("/user/update_shopowner/{userId}")
     public ResponseEntity<ResponseWrapper<user_entity>> updateUserWithShopOwner(
@@ -716,7 +720,7 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
     //------------------------------ manage general user
 
     @PostMapping("/user/add_general_user")
-    public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewGeneraluser(@RequestBody UserAddressWrapper userAddressWrapper, @RequestHeader ("Authorization") String authorizationHeader) {
+    public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewGeneraluser(@RequestBody UserAddressWrapper userAddressWrapper, @RequestHeader("Authorization") String authorizationHeader) {
         try {
             // Validate authorization using authService
             ResponseEntity<?> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
@@ -923,8 +927,7 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
 //    }
 
 
-
-        @PutMapping("/user/update_general_user/{userId}")
+    @PutMapping("/user/update_general_user/{userId}")
     public ResponseEntity<ResponseWrapper<user_entity>> updateGeneralUser(
             @PathVariable Long userId,
             @RequestBody UserAddressWrapper userAddressWrapper,
@@ -1067,13 +1070,13 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
     // Method to validate email format
     private boolean isValidEmail(String email) {
         // Regular expression for a simple email format check
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         return email.matches(regex);
     }
-
 
 
 }
