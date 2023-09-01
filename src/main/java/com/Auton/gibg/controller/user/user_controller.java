@@ -380,6 +380,7 @@ public ResponseEntity<ResponseWrapper<String>> deleteUser(
 public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@RequestBody UserAddressShopWrapper request,
                                                                           @RequestHeader ("Authorization") String authorizationHeader) {
     try {
+
         // Validate authorization using authService
         ResponseEntity<ResponseWrapper<Void>> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
         if (authResponse.getStatusCode() != HttpStatus.OK) {
@@ -388,13 +389,13 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
         }
 
         user_entity user = request.getUser();
-        address_entity userAddress = request.getUserAddress();
+//        address_entity userAddress = request.getUserAddress();
         shop_entity userShop = request.getUserShop();
         List<shopAmenrities_entity> shopAmenrities = request.getShopAmenrities();
         List<shopService_entity> shopService = request.getShopServices();
         List<shopImage_entity> shopImages = request.getShopImages();
 
-
+        System.out.println(user.getPhone());
 
         // Check for null values and validate email and password length
         if (user.getEmail() == null || user.getPassword() == null || user.getFirst_name() == null || user.getLast_name() == null) {
@@ -439,7 +440,7 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
             return ResponseEntity.status(HttpStatus.CONFLICT).body(responseWrapper);
         } else {
             // Save the user address
-            address_entity savedAddress = address_repoittory.save(userAddress);
+//            address_entity savedAddress = address_repoittory.save(userAddress);
             // shop information
             userShop.setShop_status_id((long)2);
             shop_entity savedShop = shop_repostory.save(userShop);
@@ -450,7 +451,7 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
             user.setPassword(encryptedPass);
 
             user.setIs_active("Active");
-            user.setAddress_id(savedAddress.getAddressId().longValue());
+//            user.setAddress_id(savedAddress.getAddressId().longValue());
             user.setShop_id(savedShop.getShopId().longValue());
             user.setRole_id((long) 3);
 
@@ -507,7 +508,7 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
             }
 
             user_entity updatedUser = updateRequest.getUser();
-            address_entity updatedAddress = updateRequest.getUserAddress();
+//            address_entity updatedAddress = updateRequest.getUserAddress();
             shop_entity updatedShop = updateRequest.getUserShop();
             List<shopAmenrities_entity> shopAmenrities = updateRequest.getShopAmenrities();
             List<shopService_entity> shopService = updateRequest.getShopServices();
@@ -575,14 +576,14 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
             shopToUpdate.setShop_type_id(updatedShop.getShop_type_id());
 
 
-            // Update address information
-            address_entity addressToUpdates = existingAddress.get();
-            addressToUpdates.setStreetAddress(updatedAddress.getStreetAddress());
-            addressToUpdates.setState(updatedAddress.getState());
-            addressToUpdates.setPostalCode(updatedAddress.getPostalCode());
-            addressToUpdates.setCountry(updatedAddress.getCountry());
-            addressToUpdates.setLatitude(updatedAddress.getLatitude());
-            addressToUpdates.setLongitude(updatedAddress.getLongitude());
+//            // Update address information
+//            address_entity addressToUpdates = existingAddress.get();
+//            addressToUpdates.setStreetAddress(updatedAddress.getStreetAddress());
+//            addressToUpdates.setState(updatedAddress.getState());
+//            addressToUpdates.setPostalCode(updatedAddress.getPostalCode());
+//            addressToUpdates.setCountry(updatedAddress.getCountry());
+//            addressToUpdates.setLatitude(updatedAddress.getLatitude());
+//            addressToUpdates.setLongitude(updatedAddress.getLongitude());
 
             // Update shop amenities, services, and images
             updateShopAmenities(existingUser.getShop_id(), shopAmenrities);
@@ -685,11 +686,11 @@ public ResponseEntity<ResponseWrapper<List<user_entity>>> addNewShowOwner(@Reque
             }
 
             user_entity existingUser = userOptional.get();
-            Long addressId = existingUser.getAddress_id();
+//            Long addressId = existingUser.getAddress_id();
             Long shopId = existingUser.getShop_id();
 
             // Delete associated address
-            address_repoittory.deleteById(addressId);
+//            address_repoittory.deleteById(addressId);
 
             // Delete associated shop owner
             shop_repostory.deleteById(shopId);

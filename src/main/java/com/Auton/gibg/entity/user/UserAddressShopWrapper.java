@@ -16,7 +16,7 @@ import java.util.List;
 @Embeddable
 public class UserAddressShopWrapper {
     private user_entity user;
-    private address_entity userAddress;
+//    private address_entity userAddress;
     private shop_entity userShop;
 
     private List<shopAmenrities_entity> shopAmenrities;
