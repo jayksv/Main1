@@ -1,0 +1,2864 @@
+{
+	"info": {
+		"_postman_id": "2648f7ee-e2b9-48d3-9d43-dfa1b7029d76",
+		"name": "GIGB_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13438009",
+		"_collection_link": "https://gold-comet-503454.postman.co/workspace/My-Workspace~3233c70a-950c-4f67-89da-fad5e242ff73/collection/13438009-2648f7ee-e2b9-48d3-9d43-dfa1b7029d76?action=share&source=collection_link&creator=13438009"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "manage User",
+					"item": [
+						{
+							"name": "sub admin",
+							"item": [
+								{
+									"name": "add new user",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": {\r\n    \"email\": \"exampl2@example.com\",\r\n    \"password\": \"@1Aa12345678\",\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"birthdate\": \"2000-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"profile_picture\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1692855266/tix1azllg1qrkxvvmiip.jpg\",\r\n    \"bio\": \"A brief biography.\"\r\n    \r\n  },\r\n  \"userAddress\": {\r\n    \"streetAddress\": \"123 Main St\",\r\n    \"state\": \"California\",\r\n    \"postalCode\": \"12345\",\r\n    \"country\": \"USA\",\r\n    \"latitude\": 37.12345678,\r\n    \"longitude\": 122.12345678\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/add_subadmin",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"add_subadmin"
+											]
+										},
+										"description": "user:{\n\nemail not null\n\npassword not null mor than 8\n\nrole_id not null\n\n}"
+									},
+									"response": []
+								},
+								{
+									"name": "update sub admin",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwidXNlcl9pZCI6MywiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UiLCJyb2xlX25hbWUiOiJhZG1pbiIsImlhdCI6MTY5MjI0MTA4OSwiZXhwIjoxNjkyMzI3NDg5fQ.0xrZM6o6t6aAYINcouxGgVDO466LdP2mP6TWVEYLYGuon_Tv9LbSfmfz2BKmMTP8ZcfHBqmCfsVL2vfS8KZD3w",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": {\r\n    \"email\": \"example6@example.com\",\r\n    \"password\": \"hashedPassword\",\r\n    \"first_name\": \"Update\",\r\n    \"last_name\": \"Doe\",\r\n    \"birthdate\": \"2000-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"profile_picture\": \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\images\\\\7985802c-bea3-46ea-a32e-d39ef5d5e616.png\",\r\n    \"bio\": \"A brief biography.\",\r\n    \"role_id\": 2\r\n    \r\n  },\r\n  \"userAddress\": {\r\n    \"streetAddress\": \"123 Main St\",\r\n    \"state\": \"California\",\r\n    \"postalCode\": \"12345\",\r\n    \"country\": \"LAOS\",\r\n    \"latitude\": 37.12345678,\r\n    \"longitude\": 122.12345678\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/update_subadmin/6",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"update_subadmin",
+												"6"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete sub admin",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwidXNlcl9pZCI6MywiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UiLCJyb2xlX25hbWUiOiJhZG1pbiIsImlhdCI6MTY5MjI0MTA4OSwiZXhwIjoxNjkyMzI3NDg5fQ.0xrZM6o6t6aAYINcouxGgVDO466LdP2mP6TWVEYLYGuon_Tv9LbSfmfz2BKmMTP8ZcfHBqmCfsVL2vfS8KZD3w",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": {\r\n    \"email\": \"example2@example.com\",\r\n    \"password\": \"hashedPassword\",\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"birthdate\": \"2000-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"profile_picture\": \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\images\\\\7985802c-bea3-46ea-a32e-d39ef5d5e616.png\",\r\n    \"bio\": \"A brief biography.\",\r\n    \"role_id\": 2\r\n    \r\n  },\r\n  \"userAddress\": {\r\n    \"streetAddress\": \"123 Main St\",\r\n    \"state\": \"California\",\r\n    \"postalCode\": \"12345\",\r\n    \"country\": \"USA\",\r\n    \"latitude\": 37.12345678,\r\n    \"longitude\": 122.12345678\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/delete_subadmin/6",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"delete_subadmin",
+												"6"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "subAdmin_ById",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/admin/user/sub/findById/2",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"sub",
+												"findById",
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "subAdmin_All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/admin/user/sub/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"sub",
+												"all"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "general user",
+							"item": [
+								{
+									"name": "add new general user",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": {\r\n    \"email\": \"user2@example.com\",\r\n    \"password\": \"hashedPassword\",\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"birthdate\": \"2000-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"profile_picture\": \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\images\\\\7985802c-bea3-46ea-a32e-d39ef5d5e616.png\",\r\n    \"bio\": \"A brief biography.\"\r\n\r\n    \r\n  },\r\n  \"userAddress\": {\r\n    \"streetAddress\": \"123 Main St\",\r\n    \"state\": \"California\",\r\n    \"postalCode\": \"12345\",\r\n    \"country\": \"USA\",\r\n    \"latitude\": 37.12345678,\r\n    \"longitude\": 122.12345678\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/add_general_user",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"add_general_user"
+											]
+										},
+										"description": "user:{\n\nemail not null\n\npassword not null mor than 8\n\nrole_id not null\n\n}"
+									},
+									"response": []
+								},
+								{
+									"name": "update general user",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": {\r\n    \"email\": \"user1@example.com\",\r\n    \"password\": \"hashedPassword\",\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"birthdate\": \"2000-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"profile_picture\": \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\images\\\\7985802c-bea3-46ea-a32e-d39ef5d5e616.png\",\r\n    \"bio\": \"A brief biography.\"\r\n\r\n    \r\n  },\r\n  \"userAddress\": {\r\n    \"streetAddress\": \"123 Main St\",\r\n    \"state\": \"California\",\r\n    \"postalCode\": \"12345\",\r\n    \"country\": \"USA\",\r\n    \"latitude\": 37.12345678,\r\n    \"longitude\": 122.12345678\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/update_general_user/22",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"update_general_user",
+												"22"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete general user",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": {\r\n    \"email\": \"example2@example.com\",\r\n    \"password\": \"hashedPassword\",\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"birthdate\": \"2000-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"profile_picture\": \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\images\\\\7985802c-bea3-46ea-a32e-d39ef5d5e616.png\",\r\n    \"bio\": \"A brief biography.\",\r\n    \"role_id\": 2\r\n    \r\n  },\r\n  \"userAddress\": {\r\n    \"streetAddress\": \"123 Main St\",\r\n    \"state\": \"California\",\r\n    \"postalCode\": \"12345\",\r\n    \"country\": \"USA\",\r\n    \"latitude\": 37.12345678,\r\n    \"longitude\": 122.12345678\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/delete_general_user/16",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"delete_general_user",
+												"16"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GeneralUser_All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/admin/user/generalUser/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"generalUser",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GeneralUser_findById",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/admin/user/generalUser/findById/12",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"generalUser",
+												"findById",
+												"12"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "manage image profile",
+							"item": [
+								{
+									"name": "profile upload image",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "imageFile",
+													"type": "file",
+													"src": "/C:/Users/USER/Pictures/Personal/pexels-justin-shaifer-1222271.jpg"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/profile/upload",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"profile",
+												"upload"
+											]
+										},
+										"description": "imageFile _only png, jpag, sbg_"
+									},
+									"response": []
+								},
+								{
+									"name": "file upload",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "File",
+													"type": "file",
+													"src": "/C:/Users/USER/Downloads/TOTO Shop.pdf"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/file/upload",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"file",
+												"upload"
+											]
+										},
+										"description": "File _only png, jpag, sbg and pdf_"
+									},
+									"response": []
+								},
+								{
+									"name": "delete  files",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "filePath",
+													"value": "C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\GIGB_Admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\file_doc\\\\0203da6f-49ab-4f7d-9461-9ffe94c339d5.pdf",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/file/delete",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"file",
+												"delete"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "profile delete image",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "imageUrl",
+													"value": "C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\GIGB_Admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\images\\\\899acb0a-4f59-4f01-b476-6ab840d44496.jpg",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/profile/delete",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"profile",
+												"delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "shop owner",
+							"item": [
+								{
+									"name": "add new shop owner",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "auto_token",
+												"value": "{{token}}",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"email\": \"shop1@example.com\",\r\n        \"password\": \"@Aa1234567\",\r\n        \"first_name\": \"John\",\r\n        \"last_name\": \"Doe\",\r\n        \"birthdate\": \"2000-01-01\",\r\n        \"gender\": \"Male\",\r\n        \"profile_picture\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\",\r\n        \"bio\": \"A brief biography.\",\r\n        \"phone\": \"0909089\"\r\n    },\r\n    \"userAddress\": {\r\n        \"streetAddress\": \"123 Main St\",\r\n        \"state\": \"California\",\r\n        \"postalCode\": \"12345\",\r\n        \"country\": \"USA\",\r\n        \"latitude\": 37.12345678,\r\n        \"longitude\": 122.12345678\r\n    },\r\n    \"shopAmenrities\": [\r\n        {\r\n            \"amenities_id\": 1\r\n        }\r\n    ],\r\n    \"shopImages\": [\r\n        {\r\n            \"image_path\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\"\r\n        },\r\n        {\r\n            \"image_path\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\"\r\n        }\r\n    ],\r\n    \"shopServices\": [\r\n        {\r\n            \"service_id\": 1\r\n        }\r\n    ],\r\n    \"userShop\": {\r\n        \"shopName\": \"Example Shop\",\r\n        \"streetAddress\": \"123 Main St\",\r\n        \"city\": \"Cityville\",\r\n        \"state\": \"State\",\r\n        \"postalCode\": \"12345\",\r\n        \"country\": \"Country\",\r\n        \"latitude\": 37.12345678,\r\n        \"longitude\": -122.98765432,\r\n        \"shop_type_id\": 5,\r\n        \"shop_image\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\",\r\n        \"shop_phone\": \"09033432\",\r\n        \"shop_mail\": \"shop@gmail.com\",\r\n        \"shop_website\": \"shop.com\",\r\n        \"mondayOpen\": \"08:00:00\",\r\n        \"mondayClose\": \"18:00:00\",\r\n        \"tuesday_open\": \"08:00:00\",\r\n        \"tuesday_close\": \"18:00:00\",\r\n        \"wednesday_open\": \"08:00:00\",\r\n        \"wednesday_close\": \"18:00:00\",\r\n        \"thursday_open\": \"08:00:00\",\r\n        \"thursday_close\": \"18:00:00\",\r\n        \"friday_open\": \"08:00:00\",\r\n        \"friday_close\": \"18:00:00\",\r\n        \"saturday_open\": \"10:00:00\",\r\n        \"saturday_close\": \"16:00:00\",\r\n        \"sunday_open\": \"10:00:00\",\r\n        \"sunday_close\": \"16:00:00\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/add_shopowner",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"add_shopowner"
+											]
+										},
+										"description": "StartFragment\n\nuser:{\n\nemail not null\n\npassword not null mor than 8\n\n}\n\nshop:{\n\nshop name not null\n\n}"
+									},
+									"response": []
+								},
+								{
+									"name": "update shop owner",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"email\": \"shop1@example.com\",\r\n        \"password\": \"@Aa1234567\",\r\n        \"first_name\": \"John\",\r\n        \"last_name\": \"Doe\",\r\n        \"birthdate\": \"2000-01-01\",\r\n        \"gender\": \"Male\",\r\n        \"profile_picture\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\",\r\n        \"bio\": \"A brief biography.\",\r\n        \"phone\": \"0909089\"\r\n    },\r\n    \"userAddress\": {\r\n        \"streetAddress\": \"123 Main St\",\r\n        \"state\": \"California\",\r\n        \"postalCode\": \"12345\",\r\n        \"country\": \"USA\",\r\n        \"latitude\": 37.12345678,\r\n        \"longitude\": 122.12345678\r\n    },\r\n    \"shopAmenrities\": [\r\n        {\r\n            \"amenities_id\": 1\r\n        }\r\n    ],\r\n    \"shopImages\": [\r\n        {\r\n            \"image_path\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\"\r\n        },\r\n        {\r\n            \"image_path\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\"\r\n        }\r\n    ],\r\n    \"shopServices\": [\r\n        {\r\n            \"service_id\": 1\r\n        }\r\n    ],\r\n    \"userShop\": {\r\n        \"shopName\": \"Example Shop\",\r\n        \"streetAddress\": \"123 Main St\",\r\n        \"city\": \"Cityville\",\r\n        \"state\": \"State\",\r\n        \"postalCode\": \"12345\",\r\n        \"country\": \"Country\",\r\n        \"latitude\": 37.12345678,\r\n        \"longitude\": -122.98765432,\r\n        \"shop_type_id\": 5,\r\n        \"shop_image\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693024738/sample.jpg\",\r\n        \"shop_phone\": \"09033432\",\r\n        \"shop_mail\": \"shop@gmail.com\",\r\n        \"shop_website\": \"shop.com\",\r\n        \"mondayOpen\": \"08:00:00\",\r\n        \"mondayClose\": \"18:00:00\",\r\n        \"tuesday_open\": \"08:00:00\",\r\n        \"tuesday_close\": \"18:00:00\",\r\n        \"wednesday_open\": \"08:00:00\",\r\n        \"wednesday_close\": \"18:00:00\",\r\n        \"thursday_open\": \"08:00:00\",\r\n        \"thursday_close\": \"18:00:00\",\r\n        \"friday_open\": \"08:00:00\",\r\n        \"friday_close\": \"18:00:00\",\r\n        \"saturday_open\": \"10:00:00\",\r\n        \"saturday_close\": \"16:00:00\",\r\n        \"sunday_open\": \"10:00:00\",\r\n        \"sunday_close\": \"16:00:00\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/update_shopowner/84",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"update_shopowner",
+												"84"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete shop owner",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/delete_shopowner/15",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"delete_shopowner",
+												"15"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "shop all",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/shopOwner/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"shopOwner",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "shop find by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/user/shopOwner/findById/20",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"shopOwner",
+												"findById",
+												"20"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "fatch data user",
+							"item": [
+								{
+									"name": "find all user",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/admin/user/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"all"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "manage role",
+					"item": [
+						{
+							"name": "get all role",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/admin/role/all",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"role",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update role info",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"roleName\": \"Super Admin\",\r\n    \"description\": \"Main of admin office\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/admin/role/update/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"role",
+										"update",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "admin login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"example@example.com\",\r\n  \"password\": \"hashedPassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "192.168.100.95:5000/api/admin/login",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"95"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"admin",
+										"login"
+									]
+								},
+								"description": "**email** _**i**____s not null_  \n**password** _is not null & more than 8 char_"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "manage shop",
+					"item": [
+						{
+							"name": "shop_type",
+							"item": [
+								{
+									"name": "insert shop type",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwidXNlcl9pZCI6MywiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UiLCJyb2xlX25hbWUiOiJhZG1pbiIsImlhdCI6MTY5MjI2Mzc5OCwiZXhwIjoxNjkyMzUwMTk4fQ.LedUB4Aygy502qI7HqCxBODYo1SFb6KSOG1r2VOhCvAI5TO5EMFl0bLMETO5DSks8vgN9Ip6POIwHOOL6C8lBQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\": \"car care2\",\r\n    \"type_icon\": \"car care2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop_type/insert",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop_type",
+												"insert"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update shop type",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwidXNlcl9pZCI6MywiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UiLCJyb2xlX25hbWUiOiJhZG1pbiIsImlhdCI6MTY5MjI2Mzc5OCwiZXhwIjoxNjkyMzUwMTk4fQ.LedUB4Aygy502qI7HqCxBODYo1SFb6KSOG1r2VOhCvAI5TO5EMFl0bLMETO5DSks8vgN9Ip6POIwHOOL6C8lBQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\": \"car care2\",\r\n    \"type_icon\": \"car care2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop_type/update/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop_type",
+												"update",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "find all shop type",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwidXNlcl9pZCI6MywiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UiLCJyb2xlX25hbWUiOiJhZG1pbiIsImlhdCI6MTY5MjI2Mzc5OCwiZXhwIjoxNjkyMzUwMTk4fQ.LedUB4Aygy502qI7HqCxBODYo1SFb6KSOG1r2VOhCvAI5TO5EMFl0bLMETO5DSks8vgN9Ip6POIwHOOL6C8lBQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\": \"clean\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop_type/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop_type",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "find by id shop type",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwidXNlcl9pZCI6MywiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UiLCJyb2xlX25hbWUiOiJhZG1pbiIsImlhdCI6MTY5MjI2Mzc5OCwiZXhwIjoxNjkyMzUwMTk4fQ.LedUB4Aygy502qI7HqCxBODYo1SFb6KSOG1r2VOhCvAI5TO5EMFl0bLMETO5DSks8vgN9Ip6POIwHOOL6C8lBQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\": \"clean\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop_type/2",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop_type",
+												"2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "manage shop",
+							"item": [
+								{
+									"name": "find all shop",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\": \"clean\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "find shop by shop id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\": \"clean\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop/findById/4",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop",
+												"findById",
+												"4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "find shop by status id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop/status/2",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop",
+												"status",
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update shop by status id",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"shop_status_id\": 2\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/shop/updateStatus/4",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"shop",
+												"updateStatus",
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Product",
+					"item": [
+						{
+							"name": "manage category",
+							"item": [
+								{
+									"name": "insert category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"category_name\": \"color\",\r\n    \"description\": \"user other car\",\r\n    \"category_icon\": \"https://cdn-icons-png.flaticon.com/512/9573/9573279.png\",\r\n    \"parent_category_id\": 0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/category/insert",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"category",
+												"insert"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"category_name\": \"Update\",\r\n    \"description\": \"user other car\",\r\n    \"parent_category_id\": 0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/category/update/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"category",
+												"update",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "category find by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/category/findById/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"category",
+												"findById",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "category find by parent id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/category/findById/3",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"category",
+												"findById",
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete one category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/category/delete/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"category",
+												"delete",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "category all",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/category/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"category",
+												"all"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "image",
+							"item": [
+								{
+									"name": "insert image any image",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "imageFiles",
+													"type": "file",
+													"src": [
+														"/C:/Users/USER/Pictures/Personal/pexels-justin-shaifer-1222271.jpg",
+														"/C:/Users/USER/Pictures/Personal/pexels-moose-photos-1587009.jpg",
+														"/C:/Users/USER/Pictures/Personal/pexels-pixabay-220453.jpg"
+													]
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/images/upload",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"images",
+												"upload"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "insert image any image Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\GIGB_Admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\file_pro\\\\ada506f4-7aa0-4cf6-b72e-b7cc00211ef5.jpg\",\r\n    \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\GIGB_Admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\file_pro\\\\d96ab53d-82e5-4cd5-b7c9-cd93ab7c68c1.jpg\",\r\n    \"C:\\\\Auto Office\\\\Project\\\\GIGI_admin\\\\GIGB_Admin\\\\src\\\\main\\\\resources\\\\static\\\\uploaded\\\\file_pro\\\\42421ee7-fe41-4f1a-bbbd-03aba03ad00d.jpg\"\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/images/delete",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"images",
+												"delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "product",
+							"item": [
+								{
+									"name": "insert product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"product\": {\r\n        \"description\": \"Example product description\",\r\n        \"product_name\": \"Example Product\",\r\n        \"price\": 29.99,\r\n        \"stock_quantity\": 100,\r\n        \"shope_id\": 8,\r\n        \"product_image\": \"example_image.jpg\",\r\n        \"category_id\": 3\r\n    },\r\n      \"product_images\": [\r\n        {\r\n            \"product_image_path\": \"product_image.png\"\r\n        },\r\n        {\r\n            \"product_image_path\": \"product_image.png\"\r\n        }\r\n    ],\r\n    \"colors\": [\r\n        {\r\n            \"color_name\": \"Red\"\r\n        },\r\n        {\r\n            \"color_name\": \"Blue\"\r\n        }\r\n    ],\r\n    \"sizes\": [\r\n        {\r\n            \"size_name\": \"Small\"\r\n        },\r\n        {\r\n            \"size_name\": \"Medium\"\r\n        }\r\n    ]\r\n  \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/insert",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"insert"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"product\": {\r\n        \"description\": \"Updated product description\",\r\n        \"product_name\": \"Updated Product\",\r\n        \"price\": 39.99,\r\n        \"stock_quantity\": 150,\r\n        \"shope_id\": 4,\r\n        \"product_image\": \"updated_image.jpg\",\r\n        \"category_id\": 3\r\n    },\r\n    \"product_images\": [\r\n        {\r\n            \"product_image_path\": \"updated_image1.png\"\r\n        },\r\n        {\r\n            \"product_image_path\": \"updated_image2.png\"\r\n        }\r\n    ],\r\n    \"colors\": [\r\n        {\r\n            \"color_name\": \"Green\"\r\n        },\r\n        {\r\n            \"color_name\": \"Yellow\"\r\n        }\r\n    ],\r\n    \"sizes\": [\r\n        {\r\n            \"size_name\": \"Large\"\r\n        },\r\n        {\r\n            \"size_name\": \"Extra Large\"\r\n        }\r\n    ]\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/update/31",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"update",
+												"31"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "product all",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"product\": {\r\n        \"description\": \"Example product description\",\r\n        \"product_name\": \"Example Product\",\r\n        \"price\": 29.99,\r\n        \"stock_quantity\": 100,\r\n        \"user_id\": 19,\r\n        \"shope_id\": 4,\r\n        \"product_image\": \"example_image.jpg\",\r\n        \"category_id\": 3\r\n    },\r\n      \"product_images\": [\r\n        {\r\n            \"product_image_path\": \"product_image.png\"\r\n        },\r\n        {\r\n            \"product_image_path\": \"product_image.png\"\r\n        }\r\n    ],\r\n    \"colors\": [\r\n        {\r\n            \"color_name\": \"Red\"\r\n        },\r\n        {\r\n            \"color_name\": \"Blue\"\r\n        }\r\n    ],\r\n    \"sizes\": [\r\n        {\r\n            \"size_name\": \"Small\"\r\n        },\r\n        {\r\n            \"size_name\": \"Medium\"\r\n        }\r\n    ]\r\n  \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "product find by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/findById/30",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"findById",
+												"30"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "product find by shop",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/byShop/4",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"byShop",
+												"4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete one product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/product/delete/30",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"product",
+												"delete",
+												"30"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "vehicles",
+					"item": [
+						{
+							"name": "vehicles_type",
+							"item": [
+								{
+									"name": "vehicles type insert",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_name\": \"sport car\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/types/insert",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"types",
+												"insert"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "vehicles type find by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_name\": \"sport car\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/types/findById/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"types",
+												"findById",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "vehicles type update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_name\": \"update\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/types/update/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"types",
+												"update",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "vehicles type all",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_name\": \"update\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/types/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"types",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "vehicles type delete one",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_name\": \"update\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/types/delete/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"types",
+												"delete",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "vehicles",
+							"item": [
+								{
+									"name": "vehicles  all",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "vehicles  find by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_name\": \"update\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/findById/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"findById",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "vehicles  update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"model\": \"model\",\r\n    \"year\": \"2122\",\r\n    \"color\": \"red\",\r\n    \"vehicleType\": \"1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/vehicles/update",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"vehicles",
+												"update"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Profiles",
+					"item": [
+						{
+							"name": "profiles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/admin/user/sub/profiles",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"sub",
+										"profiles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "manage services",
+					"item": [
+						{
+							"name": "service type",
+							"item": [
+								{
+									"name": "insert service type new",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\":\"Auto repair2\",\r\n    \"serviceType_icon\":\"https://res.cloudinary.com/ds639zn4t/image/upload/v1692856167/pxeztq6uh6jzxq52qylp.jpg\",\r\n    \"parent_type_id\":0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/serviceType/insert",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"serviceType",
+												"insert"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update service type",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\":\"Auto repair2\",\r\n    \"serviceType_icon\":\"https://res.cloudinary.com/ds639zn4t/image/upload/v1692856167/pxeztq6uh6jzxq52qylp.jpg\",\r\n    \"parent_type_id\":0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/serviceType/update/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"serviceType",
+												"update",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "service type all",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"type_name\":\"Auto repair\",\r\n    \"parent_type_id\":0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/serviceType/0",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"serviceType",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "service type by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/serviceType/findById/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"serviceType",
+												"findById",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete service type",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/serviceType/delete/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"serviceType",
+												"delete",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "manage service",
+							"item": [
+								{
+									"name": "insert service  new",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"service_name\": \"Car Wash\",\r\n  \"description\": \"Professional car wash service\",\r\n  \"service_icon\":\"https://cdn-icons-png.flaticon.com/512/2815/2815428.png\",\r\n  \"serviceType_id\": 5\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/service/insert",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"service",
+												"insert"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get service all",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"service_name\": \"Car Wash\",\r\n  \"description\": \"Professional car wash service\",\r\n  \"service_icon\":\"https://cdn-icons-png.flaticon.com/512/2815/2815428.png\",\r\n  \"serviceType_id\": 5\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/service/all",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"service",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get service by id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/service/findById/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"service",
+												"findById",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update service by id",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"service_name\": \"update Car Wash\",\r\n  \"description\": \"Professional car wash service\",\r\n  \"service_icon\":\"https://cdn-icons-png.flaticon.com/512/2815/2815428.png\",\r\n  \"serviceType_id\": 5\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/service/update/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"service",
+												"update",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete service by id",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/admin/service/delete/2",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"admin",
+												"service",
+												"delete",
+												"2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "manage amenrities",
+					"item": [
+						{
+							"name": "insert amenrities new",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"amenities_name\": \"Amenities Name\",\r\n  \"amenities_icon\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693449297/votc9ahslwjjazzdsgrz.png\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/admin/amenrities/insert",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"amenrities",
+										"insert"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "insert amenrities icon",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "iconFile",
+											"type": "file",
+											"src": "/C:/Users/USER/Pictures/Saved Pictures/THUMB__2e1v.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/admin/icon/upload",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"icon",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "amenrities all",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"service_name\": \"Car Wash\",\r\n  \"description\": \"Professional car wash service\",\r\n  \"service_icon\":\"https://cdn-icons-png.flaticon.com/512/2815/2815428.png\",\r\n  \"serviceType_id\": 5\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/admin/amenrities/all",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"amenrities",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "amenrities by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"service_name\": \"Car Wash\",\r\n  \"description\": \"Professional car wash service\",\r\n  \"service_icon\":\"https://cdn-icons-png.flaticon.com/512/2815/2815428.png\",\r\n  \"serviceType_id\": 5\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/admin/amenrities/findById/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"amenrities",
+										"findById",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "amenrities update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"amenities_name\": \"update Amenities Name\",\r\n  \"amenities_icon\": \"https://res.cloudinary.com/ds639zn4t/image/upload/v1693449297/votc9ahslwjjazzdsgrz.png\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/admin/amenrities/update/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"amenrities",
+										"update",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://192.168.100.95:3001",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwidXNlcl9pZCI6MTksImZpcnN0X25hbWUiOiJKb2huMSIsImxhc3RfbmFtZSI6IkRvZSIsInJvbGVfbmFtZSI6IlN1cGVyIEFkbWluIiwicm9sZV9pZCI6MSwiaWF0IjoxNjkzMTg5NTEzLCJleHAiOjE2OTUyNjMxMTN9.q-NYOpaVpGyyXyLvnvM5YmUKvIx_cgzhyIbGEwODyq7w0GtYnVtdQe6Euu3wraFzuamT2rLXaS_gJlD7LGe72A",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "http://192.168.100.95:5000",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
