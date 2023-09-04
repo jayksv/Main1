@@ -15,7 +15,10 @@ import java.sql.Time;
 @AllArgsConstructor
 @Embeddable
 public class shopInfo_DTO {
+    private Long shop_id;
+    private String email;
     private String shop_name;
+    private String last_name;
     private String street_address;
     private String city;
     private String shop_state;

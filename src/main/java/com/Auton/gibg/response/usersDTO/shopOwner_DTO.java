@@ -1,5 +1,6 @@
 package com.Auton.gibg.response.usersDTO;
 
+import jakarta.persistence.ConstructorResult;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +18,15 @@ import java.util.List;
 @AllArgsConstructor
 @Embeddable
 public class shopOwner_DTO {
-    private shopOwner_DTO user;
-    private address_entity userAddress;
-    private shopInfo_DTO userShop;
+    private String message;
+
+    private shopInfo_DTO shopInfo;
 
     private List<shopAmenrities_entity> shopAmenrities;
     private List<shopImage_entity> shopImages;
     private List<shopService_entity> shopServices;
+    private List<shop_type> shopType;
+
 }
 
 
