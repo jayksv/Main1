@@ -22,4 +22,5 @@ public class UserAddressShopWrapper {
     private List<shopAmenrities_entity> shopAmenrities;
     private List<shopImage_entity> shopImages;
     private List<shopService_entity> shopServices;
+    private List<shop_type> shopType;
 }

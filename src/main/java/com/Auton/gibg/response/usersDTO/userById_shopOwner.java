@@ -28,12 +28,12 @@ public class userById_shopOwner {
     private String bio;
     private String role_name;
 // address
-    private String streetAddress;
-    private String state;
-    private String postalCode;
-    private String country;
-    private Double latitude;
-    private Double longitude;
+//    private String streetAddress;
+//    private String state;
+//    private String postalCode;
+//    private String country;
+//    private Double latitude;
+//    private Double longitude;
 //shop information
 
     private String shop_name;

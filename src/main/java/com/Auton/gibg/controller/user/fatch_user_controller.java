@@ -472,7 +472,7 @@ public class fatch_user_controller {
             }
 
 
-            String sql = "SELECT `user_id`, `email`, `first_name`, `last_name`, `birthdate`, `gender`, `profile_picture`, `created_at`, `last_login`, `is_active`, `bio`, `role_id`, `role_name`, `user_address`, `user_state`, `user_postal_code`, `user_country`, `user_latitude`, `user_longitude`, `shop_id`, `shop_name`, `shop_address`, `city`, `shop_state`, `shop_postal_code`, `shop_country`, `shop_latitude`, `shop_longitude`, `type_id`, `shop_image`, `monday_open`, `monday_close`, `tuesday_open`, `tuesday_close`, `wednesday_open`, `wednesday_close`, `thursday_open`, `thursday_close`, `friday_open`, `friday_close`, `saturday_open`, `saturday_close`, `sunday_open`, `sunday_close`, `shop_created_at` FROM `user_shop_view` ";
+            String sql = "SELECT * FROM `user_shop_view` ";
             List<shopInfo_DTO> shopInfo = jdbcTemplate.query(sql, this::mapShopInfo);
 
             List<shopOwner_DTO> responses = new ArrayList<>();
@@ -497,11 +497,8 @@ public class fatch_user_controller {
         }
     }
 
-    @GetMapping("/user/shopOwner/findById/{userId}")
-    public ResponseEntity<ResponseWrapper<userById_shopOwner>> getShopOwnerById(
-            @PathVariable Long userId,
-            @RequestHeader("Authorization") String authorizationHeader
-    ) {
+    @GetMapping("/user/shopOwner/{user_id}")
+    public ResponseEntity<?> getShopOwnerById(@PathVariable Long user_id, @RequestHeader("Authorization") String authorizationHeader) {
         try {
             // Validate authorization using authService
             ResponseEntity<ResponseWrapper<Void>> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
@@ -510,82 +507,118 @@ public class fatch_user_controller {
                 return ResponseEntity.status(authResponse.getStatusCode()).body(new ResponseWrapper<>(authResponseBody.getMessage(), null));
             }
 
-                // Query the database to retrieve the specific user data by userId
-                String sql = "SELECT * FROM `user_shop_view` WHERE `user_id`=?";
-                userById_shopOwner userDTO = jdbcTemplate.queryForObject(sql, new Object[]{userId}, (resultSet, rowNum) -> {
-                    userById_shopOwner userOneShopower = new userById_shopOwner();
-                    userOneShopower.setUser_id(resultSet.getLong("user_id"));
-                    userOneShopower.setEmail(resultSet.getString("email"));
-                    userOneShopower.setFirst_name(resultSet.getString("first_name"));
-                    userOneShopower.setLast_name(resultSet.getString("last_name"));
-                    userOneShopower.setBirthdate(resultSet.getDate("birthdate"));
-                    userOneShopower.setGender(resultSet.getString("gender"));
-                    userOneShopower.setProfile_picture(resultSet.getString("profile_picture"));
-                    userOneShopower.setCreated_at(resultSet.getDate("created_at"));
-                    userOneShopower.setLast_login(resultSet.getDate("last_login"));
-                    userOneShopower.setIs_active(resultSet.getString("is_active"));
-                    userOneShopower.setBio(resultSet.getString("bio"));
-                    userOneShopower.setRole_name(resultSet.getString("role_name"));
+            String sql = "SELECT * FROM `user_shop_view` WHERE user_id = ?";
+            List<shopInfo_DTO> shopInfo = jdbcTemplate.query(sql, new Object[]{user_id}, this::mapShopInfo);
 
-                    // Populate the address information
-                    userOneShopower.setStreetAddress(resultSet.getString("user_address"));
-                    userOneShopower.setState(resultSet.getString("user_state"));
-                    userOneShopower.setPostalCode(resultSet.getString("user_postal_code"));
-                    userOneShopower.setCountry(resultSet.getString("user_country"));
-                    userOneShopower.setLatitude(resultSet.getDouble("user_latitude"));
-                    userOneShopower.setLongitude(resultSet.getDouble("user_longitude"));
-
-                    // Populate the shop information
-                    userOneShopower.setShop_name(resultSet.getString("shop_name"));
-                    userOneShopower.setStreet_address(resultSet.getString("shop_address"));
-                    userOneShopower.setCity(resultSet.getString("city"));
-                    userOneShopower.setShop_state(resultSet.getString("shop_state"));
-                    userOneShopower.setPostal_code(resultSet.getString("shop_postal_code"));
-                    userOneShopower.setShop_country(resultSet.getString("shop_country"));
-                    userOneShopower.setShop_latitude(resultSet.getBigDecimal("shop_latitude"));
-                    userOneShopower.setShop_longitude(resultSet.getBigDecimal("shop_longitude"));
-                    userOneShopower.setShop_type_name(resultSet.getString("type_id"));
-                    userOneShopower.setShop_image(resultSet.getString("shop_image"));
-                    userOneShopower.setMonday_open(resultSet.getTime("monday_open"));
-                    userOneShopower.setMonday_close(resultSet.getTime("monday_close"));
-                    userOneShopower.setTuesday_open(resultSet.getTime("tuesday_open"));
-                    userOneShopower.setTuesday_close(resultSet.getTime("tuesday_close"));
-                    userOneShopower.setWednesday_open(resultSet.getTime("wednesday_open"));
-                    userOneShopower.setWednesday_close(resultSet.getTime("wednesday_close"));
-                    userOneShopower.setThursday_open(resultSet.getTime("thursday_open"));
-                    userOneShopower.setThursday_close(resultSet.getTime("thursday_close"));
-                    userOneShopower.setFriday_open(resultSet.getTime("friday_open"));
-                    userOneShopower.setFriday_close(resultSet.getTime("friday_close"));
-                    userOneShopower.setSaturday_open(resultSet.getTime("saturday_open"));
-                    userOneShopower.setSaturday_close(resultSet.getTime("saturday_close"));
-                    userOneShopower.setSunday_open(resultSet.getTime("sunday_open"));
-                    userOneShopower.setSunday_close(resultSet.getTime("sunday_close"));
-                return userOneShopower;
-            });
-
-            if (userDTO == null) {
-                // If userDTO is null, the user with the given ID was not found
-                ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("User not found.", null);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
+            if (shopInfo.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper<>("Shop owner not found for user_id: " + user_id, null));
             }
 
-            ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("User data retrieved successfully.", userDTO);
-            return ResponseEntity.ok(responseWrapper);
+            shopInfo_DTO usershopInfo = shopInfo.get(0);
+            List<shopAmenrities_entity> amenity = findshopAmenrities(usershopInfo.getShop_id());
+            List<shopImage_entity> image = findImage(usershopInfo.getShop_id());
+            List<shopService_entity> service = findService(usershopInfo.getShop_id());
+            List<shop_type> types = findShopType(usershopInfo.getShop_id());
 
-        } catch (JwtException e) {
-            // Token is invalid or has expired
-            ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
-        } catch (EmptyResultDataAccessException e) {
-            // User not found
-            ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("User not found.", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
+            shopOwner_DTO res = new shopOwner_DTO("Success", usershopInfo, amenity, image, service, types);
+
+            return ResponseEntity.ok(res);
         } catch (Exception e) {
-            String errorMessage = "An error occurred while retrieving user data.";
-            ResponseWrapper<userById_shopOwner> errorResponse = new ResponseWrapper<>(errorMessage, null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
+//    @GetMapping("/user/shopOwner/findById/{userId}")
+//    public ResponseEntity<ResponseWrapper<userById_shopOwner>> getShopOwnerById(
+//            @PathVariable Long userId,
+//            @RequestHeader("Authorization") String authorizationHeader
+//    ) {
+//        try {
+//            // Validate authorization using authService
+//            ResponseEntity<ResponseWrapper<Void>> authResponse = authService.validateAuthorizationHeader(authorizationHeader);
+//            if (authResponse.getStatusCode() != HttpStatus.OK) {
+//                ResponseWrapper<Void> authResponseBody = authResponse.getBody();
+//                return ResponseEntity.status(authResponse.getStatusCode()).body(new ResponseWrapper<>(authResponseBody.getMessage(), null));
+//            }
+//
+//                // Query the database to retrieve the specific user data by userId
+//                String sql = "SELECT * FROM `user_shop_view` WHERE user_id = ?";
+//                userById_shopOwner userDTO = jdbcTemplate.queryForObject(sql, new Object[]{userId}, (resultSet, rowNum) -> {
+//                    userById_shopOwner userOneShopower = new userById_shopOwner();
+//                    userOneShopower.setUser_id(resultSet.getLong("user_id"));
+//                    userOneShopower.setEmail(resultSet.getString("email"));
+//                    userOneShopower.setFirst_name(resultSet.getString("first_name"));
+//                    userOneShopower.setLast_name(resultSet.getString("last_name"));
+//                    userOneShopower.setBirthdate(resultSet.getDate("birthdate"));
+//                    userOneShopower.setGender(resultSet.getString("gender"));
+//                    userOneShopower.setProfile_picture(resultSet.getString("profile_picture"));
+//                    userOneShopower.setCreated_at(resultSet.getDate("created_at"));
+//                    userOneShopower.setLast_login(resultSet.getDate("last_login"));
+//                    userOneShopower.setIs_active(resultSet.getString("is_active"));
+//                    userOneShopower.setBio(resultSet.getString("bio"));
+//                    userOneShopower.setRole_name(resultSet.getString("role_name"));
+//
+////                    // Populate the address information
+////                    userOneShopower.setStreetAddress(resultSet.getString("user_address"));
+////                    userOneShopower.setState(resultSet.getString("user_state"));
+////                    userOneShopower.setPostalCode(resultSet.getString("user_postal_code"));
+////                    userOneShopower.setCountry(resultSet.getString("user_country"));
+////                    userOneShopower.setLatitude(resultSet.getDouble("user_latitude"));
+////                    userOneShopower.setLongitude(resultSet.getDouble("user_longitude"));
+//
+//                    // Populate the shop information
+//                    userOneShopower.setShop_name(resultSet.getString("shop_name"));
+//                    userOneShopower.setStreet_address(resultSet.getString("shop_address"));
+//                    userOneShopower.setCity(resultSet.getString("city"));
+//                    userOneShopower.setShop_state(resultSet.getString("shop_state"));
+//                    userOneShopower.setPostal_code(resultSet.getString("shop_postal_code"));
+//                    userOneShopower.setShop_country(resultSet.getString("shop_country"));
+//                    userOneShopower.setShop_latitude(resultSet.getBigDecimal("shop_latitude"));
+//                    userOneShopower.setShop_longitude(resultSet.getBigDecimal("shop_longitude"));
+//                    userOneShopower.setShop_type_name(resultSet.getString("type_id"));
+//                    userOneShopower.setShop_image(resultSet.getString("shop_image"));
+//                    userOneShopower.setMonday_open(resultSet.getTime("monday_open"));
+//                    userOneShopower.setMonday_close(resultSet.getTime("monday_close"));
+//                    userOneShopower.setTuesday_open(resultSet.getTime("tuesday_open"));
+//                    userOneShopower.setTuesday_close(resultSet.getTime("tuesday_close"));
+//                    userOneShopower.setWednesday_open(resultSet.getTime("wednesday_open"));
+//                    userOneShopower.setWednesday_close(resultSet.getTime("wednesday_close"));
+//                    userOneShopower.setThursday_open(resultSet.getTime("thursday_open"));
+//                    userOneShopower.setThursday_close(resultSet.getTime("thursday_close"));
+//                    userOneShopower.setFriday_open(resultSet.getTime("friday_open"));
+//                    userOneShopower.setFriday_close(resultSet.getTime("friday_close"));
+//                    userOneShopower.setSaturday_open(resultSet.getTime("saturday_open"));
+//                    userOneShopower.setSaturday_close(resultSet.getTime("saturday_close"));
+//                    userOneShopower.setSunday_open(resultSet.getTime("sunday_open"));
+//                    userOneShopower.setSunday_close(resultSet.getTime("sunday_close"));
+//                return userOneShopower;
+//            });
+//
+//            if (userDTO == null) {
+//                // If userDTO is null, the user with the given ID was not found
+//                ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("User not found.", null);
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
+//            }
+//
+//            ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("User data retrieved successfully.", userDTO);
+//            return ResponseEntity.ok(responseWrapper);
+//
+//        } catch (JwtException e) {
+//            // Token is invalid or has expired
+//            ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+//        } catch (EmptyResultDataAccessException e) {
+//            // User not found
+//            ResponseWrapper<userById_shopOwner> responseWrapper = new ResponseWrapper<>("User not found.", null);
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseWrapper);
+//        } catch (Exception e) {
+//            String errorMessage = "An error occurred while retrieving user data.";
+//            ResponseWrapper<userById_shopOwner> errorResponse = new ResponseWrapper<>(errorMessage, null);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+//        }
+//    }
 
 // -- profiles
 @GetMapping("/user/sub/profiles")
@@ -684,20 +717,21 @@ public ResponseEntity<ResponseWrapper<userById_subadminDTO>> getProfilesuser(
         shopInfo.setShop_id(rs.getLong("shop_id"));
         shopInfo.setEmail(rs.getString("email"));
         shopInfo.setShop_name(rs.getString("shop_name"));
+        shopInfo.setFirst_name(rs.getString("first_name"));
         shopInfo.setLast_name(rs.getString("last_name"));
-        shopInfo.setStreet_address(rs.getString("street_address"));
+        shopInfo.setShop_address(rs.getString("shop_address"));
         shopInfo.setCity(rs.getString("city"));
         shopInfo.setShop_state(rs.getString("shop_state"));
-        shopInfo.setPostal_code(rs.getString("postal_code"));
+//        shopInfo.setPostal_code(rs.getString("postal_code"));
         shopInfo.setShop_country(rs.getString("shop_country"));
         shopInfo.setShop_latitude(rs.getBigDecimal("shop_latitude"));
         shopInfo.setShop_longitude(rs.getBigDecimal("shop_longitude"));
-        shopInfo.setShop_type_name(rs.getString("shop_type_name"));
+//        shopInfo.setShop_type_name(rs.getString("shop_type_name"));
         shopInfo.setShop_image(rs.getString("shop_image"));
         shopInfo.setShop_phone(rs.getString("shop_phone"));
         shopInfo.setShop_mail(rs.getString("shop_mail"));
         shopInfo.setShop_website(rs.getString("shop_website"));
-
+//
         shopInfo.setMonday_open(rs.getTime("monday_open"));
         shopInfo.setMonday_close(rs.getTime("monday_close"));
         shopInfo.setTuesday_open(rs.getTime("tuesday_open"));
@@ -710,6 +744,8 @@ public ResponseEntity<ResponseWrapper<userById_subadminDTO>> getProfilesuser(
         shopInfo.setFriday_close(rs.getTime("friday_close"));
         shopInfo.setSaturday_open(rs.getTime("saturday_open"));
         shopInfo.setSaturday_close(rs.getTime("saturday_close"));
+        shopInfo.setSunday_open(rs.getTime("sunday_open"));
+        shopInfo.setSunday_close(rs.getTime("sunday_close"));
 
 
         return shopInfo;
@@ -758,9 +794,10 @@ public ResponseEntity<ResponseWrapper<userById_subadminDTO>> getProfilesuser(
     }
     private shop_type mappshopType(ResultSet rs, int rowNum) throws SQLException {
         shop_type shopType = new shop_type();
-        shopType.setShop_type_id(rs.getLong("shop_type"));
+        shopType.setShop_type_id(rs.getLong("shop_type_id"));
         shopType.setShop_id(rs.getLong("shop_id"));
         shopType.setType_id(rs.getLong("type_id"));
+        shopType.setCreate_at(rs.getDate("create_at"));
 
         return shopType;
     }

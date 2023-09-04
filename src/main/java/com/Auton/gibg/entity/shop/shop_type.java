@@ -17,7 +17,7 @@ import java.util.Date;
 public class shop_type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "shop_type")
+    @Column(name = "shop_type_id")
     private Long shop_type_id;
 
     @Column(name = "shop_id")

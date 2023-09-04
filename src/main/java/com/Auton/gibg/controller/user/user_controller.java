@@ -2,20 +2,14 @@ package com.Auton.gibg.controller.user;
 
 
 import com.Auton.gibg.entity.address.address_entity;
-import com.Auton.gibg.entity.shop.shopAmenrities_entity;
-import com.Auton.gibg.entity.shop.shopImage_entity;
-import com.Auton.gibg.entity.shop.shopService_entity;
-import com.Auton.gibg.entity.shop.shop_entity;
+import com.Auton.gibg.entity.shop.*;
 import com.Auton.gibg.entity.user.LoginResponse;
 import com.Auton.gibg.entity.user.UserAddressShopWrapper;
 import com.Auton.gibg.entity.user.UserAddressWrapper;
 import com.Auton.gibg.entity.user.user_entity;
 import com.Auton.gibg.middleware.authToken;
 import com.Auton.gibg.repository.address.address_repoittory;
-import com.Auton.gibg.repository.shop.shopAmenrities_repository;
-import com.Auton.gibg.repository.shop.shopImage_repository;
-import com.Auton.gibg.repository.shop.shopService_repository;
-import com.Auton.gibg.repository.shop.shop_repostory;
+import com.Auton.gibg.repository.shop.*;
 import com.Auton.gibg.repository.user.user_repository;
 import com.Auton.gibg.response.ResponseWrapper;
 import io.jsonwebtoken.Claims;
@@ -62,6 +56,9 @@ public class user_controller {
 
     @Autowired
     private shopImage_repository shopImageRepository;
+
+    @Autowired
+    private shopType_repository shopTypeRepository;
 
     @Autowired
     public user_controller(JdbcTemplate jdbcTemplate, authToken authService) {
@@ -398,6 +395,7 @@ public class user_controller {
             List<shopAmenrities_entity> shopAmenrities = request.getShopAmenrities();
             List<shopService_entity> shopService = request.getShopServices();
             List<shopImage_entity> shopImages = request.getShopImages();
+            List<shop_type> shopTypes = request.getShopType();
 
             System.out.println(user.getPhone());
 
@@ -463,16 +461,18 @@ public class user_controller {
                 user_entity savedUser = user_repository.save(user);
                 // Set the shop_id
 
-                int minSize = Math.min(shopAmenrities.size(), Math.min(shopService.size(), shopImages.size()));
+                int minSize = Math.min(shopAmenrities.size(), Math.min(shopService.size(), Math.min(shopImages.size(),shopTypes.size())));
 
                 for (int i = 0; i < minSize; i++) {
                     shopAmenrities_entity amenrity = shopAmenrities.get(i);
                     shopService_entity service = shopService.get(i);
                     shopImage_entity image = shopImages.get(i);
+                    shop_type type = shopTypes.get(i);
 
                     amenrity.setShop_id(savedUser.getShop_id());
                     service.setShop_id(savedUser.getShop_id());
                     image.setShop_id(savedUser.getShop_id());
+                    type.setShop_id(savedUser.getShop_id());
                 }
 
                 // Set the shop_id for each shopImage_entity
@@ -483,6 +483,7 @@ public class user_controller {
                 shopAmenritiesRepository.saveAll(shopAmenrities);
                 shopServiceRepository.saveAll(shopService);
                 shopImageRepository.saveAll(shopImages);
+                shopTypeRepository.saveAll(shopTypes);
 
 
                 ResponseWrapper<List<user_entity>> responseWrapper = new ResponseWrapper<>("Insert new user, address and shop successful", null);
