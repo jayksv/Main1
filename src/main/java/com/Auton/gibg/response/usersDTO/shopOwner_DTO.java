@@ -1,14 +1,14 @@
 package com.Auton.gibg.response.usersDTO;
 
-import jakarta.persistence.ConstructorResult;
+import com.Auton.gibg.response.shopService.shopAmenitiesDTO;
+import com.Auton.gibg.response.shopService.shopServiceDTO;
+import com.Auton.gibg.response.shopService.shopTypeDTO;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.Auton.gibg.entity.address.address_entity;
 import com.Auton.gibg.entity.shop.*;
-import com.Auton.gibg.response.usersDTO.*;
 
 import java.util.List;
 
@@ -22,10 +22,10 @@ public class shopOwner_DTO {
 
     private shopInfo_DTO shopInfo;
 
-    private List<shopAmenrities_entity> shopAmenrities;
+    private List<shopAmenitiesDTO> shopAmenrities;
     private List<shopImage_entity> shopImages;
-    private List<shopService_entity> shopServices;
-    private List<shop_type> shopType;
+    private List<shopServiceDTO> shopServices;
+    private List<shopTypeDTO> shopType;
 
 }
 

@@ -1,26 +1,17 @@
 package com.Auton.gibg.controller.user;
 
-import com.Auton.gibg.entity.product.color_entity;
-import com.Auton.gibg.entity.product.product_image_entity;
-import com.Auton.gibg.entity.product.size_entity;
 import com.Auton.gibg.entity.shop.*;
-import com.Auton.gibg.repository.product.color_repository;
-import com.Auton.gibg.repository.product.product_image_repository;
-import com.Auton.gibg.repository.product.product_repository;
-import com.Auton.gibg.repository.product.size_repository;
 import com.Auton.gibg.repository.shop.shopAmenrities_repository;
 import com.Auton.gibg.repository.shop.shopImage_repository;
 import com.Auton.gibg.repository.shop.shopService_repository;
 import com.Auton.gibg.repository.shop.shopType_repository;
+import com.Auton.gibg.response.shopService.shopAmenitiesDTO;
+import com.Auton.gibg.response.shopService.shopServiceDTO;
+import com.Auton.gibg.response.shopService.shopTypeDTO;
 import com.Auton.gibg.response.usersDTO.*;
-import com.Auton.gibg.entity.user.user_entity;
 import com.Auton.gibg.middleware.authToken;
-import com.Auton.gibg.response.product.productColorSizeImageDTO;
-import com.Auton.gibg.response.product.productDTO;
-import com.Auton.gibg.response.shopDTO.shopAllDTO;
 import com.Auton.gibg.response.usersDTO.usersAllDTO;
 import com.Auton.gibg.response.usersDTO.userById_subadminDTO;
-import com.Auton.gibg.response.usersDTO.userById_shopOwner;
 import com.Auton.gibg.response.ResponseWrapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -28,7 +19,6 @@ import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -479,10 +469,10 @@ public class fatch_user_controller {
 
             for (shopInfo_DTO usershopInfo : shopInfo) {
 
-                List<shopAmenrities_entity> amenity = findshopAmenrities(usershopInfo.getShop_id());
+                List<shopAmenitiesDTO> amenity = findshopAmenrities(usershopInfo.getShop_id());
                 List<shopImage_entity> image = findImage(usershopInfo.getShop_id());
-                List<shopService_entity> service = findService(usershopInfo.getShop_id());
-                List<shop_type> types = findShopType(usershopInfo.getShop_id());
+                List<shopServiceDTO> service = findService(usershopInfo.getShop_id());
+                List<shopTypeDTO> types = findShopType(usershopInfo.getShop_id());
 
 
                 shopOwner_DTO res =new shopOwner_DTO("Success", usershopInfo, amenity, image, service, types);
@@ -515,10 +505,10 @@ public class fatch_user_controller {
             }
 
             shopInfo_DTO usershopInfo = shopInfo.get(0);
-            List<shopAmenrities_entity> amenity = findshopAmenrities(usershopInfo.getShop_id());
+            List<shopAmenitiesDTO> amenity = findshopAmenrities(usershopInfo.getShop_id());
             List<shopImage_entity> image = findImage(usershopInfo.getShop_id());
-            List<shopService_entity> service = findService(usershopInfo.getShop_id());
-            List<shop_type> types = findShopType(usershopInfo.getShop_id());
+            List<shopServiceDTO> service = findService(usershopInfo.getShop_id());
+            List<shopTypeDTO> types = findShopType(usershopInfo.getShop_id());
 
             shopOwner_DTO res = new shopOwner_DTO("Success", usershopInfo, amenity, image, service, types);
 
@@ -752,15 +742,20 @@ public ResponseEntity<ResponseWrapper<userById_subadminDTO>> getProfilesuser(
 
     }
 
-    private  List<shopAmenrities_entity> findshopAmenrities(Long shopId){
-        String SQL = "SELECT * FROM `shop_amenitie` WHERE shop_id =? ";
+    private  List<shopAmenitiesDTO> findshopAmenrities(Long shopId){
+        String SQL = "SELECT shop_amenitie.amenities_id, shop_amenitie.shop_amenities_id, tb_shop.shop_name, tb_amenities.amenities_name \n" +
+                "FROM shop_amenitie\n" +
+                "JOIN tb_amenities ON shop_amenitie.amenities_id = tb_amenities.amenities_id\n" +
+                "JOIN tb_shop ON shop_amenitie.shop_id = tb_shop.shop_id \n" +
+                "WHERE shop_amenitie.shop_id =? ";
         return  jdbcTemplate.query(SQL,this::mappshopAmenrities,shopId);
     }
-    private shopAmenrities_entity mappshopAmenrities(ResultSet rs, int rowNum) throws SQLException {
-        shopAmenrities_entity shopAmenritiesEntity = new shopAmenrities_entity();
-        shopAmenritiesEntity.setShop_amenities_id(rs.getLong("shop_amenities_id"));
-        shopAmenritiesEntity.setShop_id(rs.getLong("shop_id"));
+    private shopAmenitiesDTO mappshopAmenrities(ResultSet rs, int rowNum) throws SQLException {
+        shopAmenitiesDTO shopAmenritiesEntity = new shopAmenitiesDTO();
+//        shopAmenritiesEntity.setShop_amenities_id(rs.getLong("shop_amenities_id"));
+//        shopAmenritiesEntity.setShop_id(rs.getLong("shop_id"));
         shopAmenritiesEntity.setAmenities_id(rs.getLong("amenities_id"));
+        shopAmenritiesEntity.setAmenities_name(rs.getString("amenities_name"));
 
         return shopAmenritiesEntity;
     }
@@ -776,28 +771,37 @@ public ResponseEntity<ResponseWrapper<userById_subadminDTO>> getProfilesuser(
 
         return shopImage;
     }
-    private  List<shopService_entity> findService(Long shopId){
-        String SQL = "SELECT * FROM `shop_service` WHERE `shop_id` =? ";
+    private  List<shopServiceDTO> findService(Long shopId){
+        String SQL = "SELECT shop_service.service_id,shop_service.shop_service_id,tb_shop.shop_name ,tb_service.service_name FROM `shop_service`" +
+                " JOIN tb_service ON shop_service.service_id = tb_service.service_id " +
+                "JOIN tb_shop ON shop_service.shop_id = tb_shop.shop_id where shop_service.shop_id=?";
         return  jdbcTemplate.query(SQL,this::mappshopService,shopId);
     }
-    private shopService_entity mappshopService(ResultSet rs, int rowNum) throws SQLException {
-        shopService_entity shopService = new shopService_entity();
-        shopService.setShop_service_id(rs.getLong("shop_service_id"));
-        shopService.setShop_id(rs.getLong("shop_id"));
+    private shopServiceDTO mappshopService(ResultSet rs, int rowNum) throws SQLException {
+        shopServiceDTO shopService = new shopServiceDTO();
+//        shopService.setShop_service_id(rs.getLong("shop_service_id"));
+//        shopService.setShop_id(rs.getLong("shop_id"));
         shopService.setService_id(rs.getLong("service_id"));
+        shopService.setService_name(rs.getString("service_name"));
+
 
         return shopService;
     }
-    private  List<shop_type> findShopType(Long shopId){
-        String SQL = "SELECT * FROM `shop_type` WHERE `shop_id` =? ";
+    private  List<shopTypeDTO> findShopType(Long shopId){
+        String SQL = "SELECT shop_type.type_id, shop_type.shop_type_id, tb_shop_types.type_name \n" +
+                "             FROM shop_type \n" +
+                "             JOIN tb_shop ON shop_type.shop_id = tb_shop.shop_id \n" +
+                "             JOIN tb_shop_types ON shop_type.type_id = tb_shop_types.type_id  " +
+                "WHERE shop_type.shop_id=? ";
         return  jdbcTemplate.query(SQL,this::mappshopType,shopId);
     }
-    private shop_type mappshopType(ResultSet rs, int rowNum) throws SQLException {
-        shop_type shopType = new shop_type();
-        shopType.setShop_type_id(rs.getLong("shop_type_id"));
-        shopType.setShop_id(rs.getLong("shop_id"));
+    private shopTypeDTO mappshopType(ResultSet rs, int rowNum) throws SQLException {
+        shopTypeDTO shopType = new shopTypeDTO();
+//        shopType.setShop_type_id(rs.getLong("shop_type_id"));
+//        shopType.setShop_id(rs.getLong("shop_id"));
         shopType.setType_id(rs.getLong("type_id"));
-        shopType.setCreate_at(rs.getDate("create_at"));
+        shopType.setType_name(rs.getString("type_name"));
+//        shopType.setCreate_at(rs.getDate("create_at"));
 
         return shopType;
     }

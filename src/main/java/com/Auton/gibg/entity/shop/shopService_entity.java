@@ -23,4 +23,5 @@ public class shopService_entity {
 
     @Column(name = "service_id")
     private Long service_id;
+
 }
