@@ -519,6 +519,85 @@ public class fatch_user_controller {
         }
     }
 
+    @GetMapping("/user/shopowner/parttime")
+    public ResponseEntity<ResponseWrapper<List<userById_subadminDTO>>> getShopOwnerPartTime(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            if (authorizationHeader == null || authorizationHeader.isBlank()) {
+                ResponseWrapper<List<userById_subadminDTO>> responseWrapper = new ResponseWrapper<>("Authorization header is missing or empty.", null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+            }
+
+            // Verify the token from the Authorization header
+            String token = authorizationHeader.substring("Bearer ".length());
+
+            Claims claims = Jwts.parser()
+                    .setSigningKey(jwt_secret) // Replace with your secret key
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // Check token expiration
+            Date expiration = claims.getExpiration();
+            if (expiration != null && expiration.before(new Date())) {
+                ResponseWrapper<List<userById_subadminDTO>> responseWrapper = new ResponseWrapper<>("Token has expired.", null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+            }
+
+            // Extract necessary claims (you can add more as needed)
+            Long authenticatedUserId = claims.get("user_id", Long.class);
+            String role = claims.get("role_name", String.class);
+
+            // Check if the user has the appropriate role to perform this action (e.g., admin)
+            if (!"admin partime".equalsIgnoreCase(role)) {
+                ResponseWrapper<List<userById_subadminDTO>> responseWrapper = new ResponseWrapper<>("You are not authorized to perform this action.", null);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseWrapper);
+            }
+
+            // Query the database to retrieve the user data with specific criteria
+            String sql = "SELECT tb_users.`user_id`, tb_users.`email`, tb_users.`first_name`, tb_users.`last_name`, tb_users.`birthdate`, tb_users.`gender`, tb_users.`profile_picture`, tb_users.`created_at`, tb_users.`last_login`, tb_users.`is_active`, tb_users.`bio`, tb_role.role_name, tb_address.street_address, tb_address.state, tb_address.postal_code, tb_address.country, tb_address.latitude, tb_address.longitude FROM `tb_users` JOIN tb_role ON tb_users.role_id = tb_role.role_id JOIN tb_address ON tb_users.address_id = tb_address.address_id WHERE tb_users.role_id = 4";
+            List<userById_subadminDTO> userDTOList = jdbcTemplate.query(sql, (resultSet, rowNum) -> {
+                userById_subadminDTO userSubadminDTO = new userById_subadminDTO();
+
+                userSubadminDTO.setUser_id(resultSet.getLong("user_id"));
+                userSubadminDTO.setEmail(resultSet.getString("email"));
+                userSubadminDTO.setFirst_name(resultSet.getString("first_name"));
+                userSubadminDTO.setLast_name(resultSet.getString("last_name"));
+                userSubadminDTO.setBirthdate(resultSet.getDate("birthdate"));
+                userSubadminDTO.setGender(resultSet.getString("gender"));
+                userSubadminDTO.setProfile_picture(resultSet.getString("profile_picture"));
+                userSubadminDTO.setCreated_at(resultSet.getDate("created_at"));
+                userSubadminDTO.setLast_login(resultSet.getDate("last_login"));
+                userSubadminDTO.setIs_active(resultSet.getString("is_active"));
+                userSubadminDTO.setBio(resultSet.getString("bio"));
+                userSubadminDTO.setRole_name(resultSet.getString("role_name"));
+
+                // Address information
+                userSubadminDTO.setStreetAddress(resultSet.getString("street_address"));
+                userSubadminDTO.setState(resultSet.getString("state"));
+                userSubadminDTO.setPostalCode(resultSet.getString("postal_code"));
+                userSubadminDTO.setCountry(resultSet.getString("country"));
+                userSubadminDTO.setLatitude(resultSet.getBigDecimal("latitude"));
+                userSubadminDTO.setLongitude(resultSet.getBigDecimal("longitude"));
+
+                return userSubadminDTO;
+            });
+
+            ResponseWrapper<List<userById_subadminDTO>> responseWrapper = new ResponseWrapper<>("User data retrieved successfully.", userDTOList);
+            return ResponseEntity.ok(responseWrapper);
+
+        } catch (JwtException e) {
+            // Token is invalid or has expired
+            ResponseWrapper<List<userById_subadminDTO>> responseWrapper = new ResponseWrapper<>("Token is invalid.", null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseWrapper);
+        }
+
+        catch (Exception e) {
+            String errorMessage = "An error occurred while retrieving user data.";
+            ResponseWrapper<List<userById_subadminDTO>> errorResponse = new ResponseWrapper<>(errorMessage, null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
 
 //    @GetMapping("/user/shopOwner/findById/{userId}")
 //    public ResponseEntity<ResponseWrapper<userById_shopOwner>> getShopOwnerById(

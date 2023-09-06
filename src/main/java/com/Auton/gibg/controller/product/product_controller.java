@@ -75,10 +75,6 @@ public class product_controller {
                 return ResponseEntity.badRequest().body(responseWrapper);
             }
 
-
-
-
-
             String token = authorizationHeader.substring("Bearer ".length());
 
             Claims claims = Jwts.parser()
